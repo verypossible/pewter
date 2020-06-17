@@ -4,7 +4,7 @@ from datetime import datetime
 
 import click
 
-from . import puter
+from . import pewter
 
 
 def text(data):
@@ -37,7 +37,7 @@ def commit(data, stack):
         **data,
         "meta": {"stack": f"{stack}", "datetime": timestamp},
     }
-    log_path = puter.data_dir() / "log.txt"
+    log_path = pewter.data_dir() / "log.txt"
     # log_path.touch(mode=0o600)
     with open(log_path, "a") as file:
         log_json = json.dumps(log_dict)

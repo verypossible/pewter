@@ -2,18 +2,18 @@
 
 ## Development Workflow
 
-Puter is a cli, which is handled by Click and Poetry.  In order to get the `puter`
-cli on your path, start with:
+Pewter is a cli, which is handled by Click and Poetry. In order to get the `pewter` cli on your
+path, start with:
 
 * `poetry install`
 
-Then, depending on your setup, you can invoke `puter` directly using either:
+Then, depending on your setup, you can invoke `pewter` directly using either:
 
-* `poetry run puter`
+* `poetry run pewter`
 
 or (if you've got direnv and poetry set up together) simply
 
-* `puter`
+* `pewter`
 
 ## Pushing and Merging a branch
 

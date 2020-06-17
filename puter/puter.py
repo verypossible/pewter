@@ -1,5 +1,5 @@
 # """
-# Entrypoint for the Puter CLI.
+# Entrypoint for the Pewter CLI.
 # """
 
 import os
@@ -24,13 +24,13 @@ from . import aws, log
 @click.option(
     "-s",
     "--security-group-name",
-    default="puter-v1",
+    default="pewter-v1",
     help="The AWS EC2 security group name. If it does not exist it will be created allowing tcp ingress on port 22.",
 )
 @click.option(
     "-k",
     "--key-name",
-    default="puter-v1",
+    default="pewter-v1",
     help="The AWS EC2 key pair name. The key pair will be created if it does not yet exist.",
 )
 @click.option(
@@ -41,7 +41,7 @@ from . import aws, log
 @click.option(
     "-t",
     "--tag",
-    default="puter",
+    default="pewter",
     help="A tag applied to the EC2 instance. Used for uniquely identifying the instance internally.",
     required=True,
 )
@@ -105,7 +105,7 @@ def data_dir():
     """
     return (
         Path(os.path.expandvars(os.getenv("XDG_DATA_HOME") or "$HOME/.local/share"))
-        / "puter"
+        / "pewter"
     )
 
 

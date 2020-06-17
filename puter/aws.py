@@ -82,7 +82,7 @@ def ensure_instance_exists(tag, instance_type, key_name, security_group_id, ami,
 
 
 def instance_exists(tag, ec2):
-    custom_filter = [{"Name": "tag:puter", "Values": [tag]}]
+    custom_filter = [{"Name": "tag:pewter", "Values": [tag]}]
     instances = ec2.describe_instances(Filters=custom_filter)
     length = len(instances["Reservations"])
     if length == 1:
@@ -105,7 +105,7 @@ def create_instance(tag, instance_type, key_name, security_group_id, ami, ec2):
             MinCount=1,
             SecurityGroupIds=[security_group_id],
             TagSpecifications=[
-                {"ResourceType": "instance", "Tags": [{"Key": "puter", "Value": tag}]}
+                {"ResourceType": "instance", "Tags": [{"Key": "pewter", "Value": tag}]}
             ],
             UserData=file.read(),
         )["Instances"][0]
@@ -157,7 +157,7 @@ def ensure_security_group_exists(security_group_name, ec2):
 
 def create_security_group(security_group_name, ec2):
     group_id = ec2.create_security_group(
-        Description="Puter SSH access", GroupName=security_group_name
+        Description="Pewter SSH access", GroupName=security_group_name
     )["GroupId"]
     log.data(
         {"type": "aws", "sub_type": "created security group", "group_id": group_id}

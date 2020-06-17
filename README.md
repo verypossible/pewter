@@ -1,4 +1,4 @@
-# Puter
+# Pewter
 
 A fast and simple means of running connectable EC2 instances for one-off work loads.
 
@@ -13,20 +13,20 @@ A fast and simple means of running connectable EC2 instances for one-off work lo
 ## Installation
 
 ```shell
-git clone git@github.com:danielspofford/puter.git
+git clone git@github.com:verypossible/pewter.git
 ```
 
 ## Usage
 
-Puter will ensure an EC2 instance exists and print its connection info.
+Pewter will ensure an EC2 instance exists and print its connection info.
 
 ```shell
-python puter/puter.py --help
+python pewter/pewter.py --help
 ```
 
 ## Internals
 
-Puter uses these boto3 functions:
+Pewter uses these boto3 functions:
 
 - `describe_instances`
 - `create_key_pair`
@@ -37,14 +37,14 @@ Puter uses these boto3 functions:
 - `describe_security_groups`
 - `modify_instance_attribute`
 
-On run, Puter:
+On run, Pewter:
 
 - Ensures a keypair exists.
 - Ensures a security group exists.
-- Ensures an EC2 instance exists with the tag key `puter` and value equal to the `--tag` option.
+- Ensures an EC2 instance exists with the tag key `pewter` and value equal to the `--tag` option.
 
-Puter never deletes anything itself. It achieves self-terminating EC2 instances by indicating upon
-creation that they should terminate on shutdown. Puter's default EC2 user data script schedules
+Pewter never deletes anything itself. It achieves self-terminating EC2 instances by indicating upon
+creation that they should terminate on shutdown. Pewter's default EC2 user data script schedules
 the system to shutdown 60 minutes from execution.
 
 The scheduled job can be viewed via `sudo at -l`. Self-termination can be canceled with
