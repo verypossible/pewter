@@ -13,6 +13,7 @@ def authorize_security_group_ingress(group_id, ec2):
         IpPermissions=[
             {
                 "FromPort": 22,
+                "ToPort": 22,
                 "IpProtocol": "tcp",
                 "IpRanges": [{"CidrIp": "140.186.196.118/32"}],
             }
@@ -65,7 +66,7 @@ def key_pair_exists(key_name, ec2):
 def create_key_pair(key_name, path, ec2):
     key_pair = ec2.create_key_pair(KeyName=key_name)
     log.data({"type": "aws", "sub_type": "created key pair", "key_name": key_name})
-    with os.fdopen(os.open(path, os.O_WRONLY | os.O_EXCL, 0o600), "w") as outfile:
+    with open(path, 'x') as outfile:
         key_material = str(key_pair["KeyMaterial"])
         outfile.write(key_material)
         log.data({"type": "local", "sub_type": "wrote key pair", "path": f"{path}"})
