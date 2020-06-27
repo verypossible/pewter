@@ -3,12 +3,10 @@
 # """
 
 import os
-import uuid
 from pathlib import Path
 
 import boto3
 import click
-import dateutil.parser
 
 from . import aws, log
 
@@ -25,24 +23,30 @@ from . import aws, log
     "-s",
     "--security-group-name",
     default="pewter-v1",
-    help="The AWS EC2 security group name. If it does not exist it will be created allowing tcp ingress on port 22.",
+    help="The AWS EC2 security group name. If it does not exist it will be created"
+    " allowing tcp ingress on port 22.",
 )
 @click.option(
     "-k",
     "--key-name",
     default="pewter-v1",
-    help="The AWS EC2 key pair name. The key pair will be created if it does not yet exist.",
+    help="The AWS EC2 key pair name. The key pair will be created if it does not yet"
+    " exist.",
 )
 @click.option(
     "-a",
     "--ami",
-    help="The AMI image ID to use. Defaults to the latest AWS Linux 2 AMI in the respective region. If the choosen AMI does not support Cloud-init, the EC2 user data may not be executed which will preevent the instance from self-terminating.",
+    help="The AMI image ID to use. Defaults to the latest AWS Linux 2 AMI in the"
+    " respective region. If the choosen AMI does not support Cloud-init the EC2"
+    " user data may not be executed which will preevent the instance from"
+    " self-terminating.",
 )
 @click.option(
     "-t",
     "--tag",
     default="pewter",
-    help="A tag applied to the EC2 instance. Used for uniquely identifying the instance internally.",
+    help="A tag applied to the EC2 instance. Used for uniquely identifying the instance"
+    " internally.",
     required=True,
 )
 def cli(ami, security_group_name, instance_type, tag, key_name, region, profile):
@@ -64,16 +68,17 @@ def resolve_private_key_path(key_name):
     """
     Return the path of the private key `key_name`.
 
-    A file may not exist at the returned path, however the parent directories of the potential
-    file will be created with permission 0700 if they do not exist.
+    A file may not exist at the returned path, however the parent directories of the
+    potential file will be created with permission 0700 if they do not exist.
     """
-    private_keys_dir = data_dir() / f"private_keys"
+    private_keys_dir = data_dir() / "private_keys"
     os.makedirs(private_keys_dir, mode=0o700, exist_ok=True)
     return private_keys_dir / f"ec2-keypair-{key_name}.pem"
 
 
 def log_rsync_and_connect_commands(key_name, private_key_path, public_dns_name):
-    """Logs rsync and ssh commands prefilled with relevant arguments and placeholders."""
+    """Logs rsync and ssh commands prefilled with relevant arguments and placeholders.
+    """
     if not private_key_path.is_file():
         private_key_path = "PATH-TO-PRIVATE-KEY"
     user = "USER"
@@ -93,7 +98,8 @@ def log_rsync_and_connect_commands(key_name, private_key_path, public_dns_name):
     log.text(f"rsync command:\n{rsync_text}")
     log.text(f"connect command:\n{ssh_text}")
     log.text(
-        'The USER depends on the AMI. Amazon Linux 2 uses "ec2-user", Ubunutu uses "ubuntu", etc.'
+        'The USER depends on the AMI. Amazon Linux 2 uses "ec2-user", Ubunutu uses'
+        ' "ubuntu", etc.'
     )
 
 
@@ -101,7 +107,8 @@ def data_dir():
     """
     Return the directory in which to store data as a pathlib.Path.
 
-    Complies with https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html.
+    Complies with
+    https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html.
     """
     return (
         Path(os.path.expandvars(os.getenv("XDG_DATA_HOME") or "$HOME/.local/share"))

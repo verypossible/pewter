@@ -46,8 +46,8 @@ def commit(data, stack):
 
 def exception(e):
     """
-    Logs an exception, `e`, as a structured json log to the log file and immediately re-raises it.
+    Logs an exception, `e`, as a structured json log to the log file and immediately
+    re-raises it.
     """
-    frame_info = inspect.stack()[1:]
     data({"exception": f"{e}"}, inspect.stack())
     raise e

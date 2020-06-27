@@ -138,7 +138,7 @@ def poll_for_public_dns_name(instance_id, ec2):
     instances = ec2.describe_instances(InstanceIds=[instance_id])
     public_dns_name = instances["Reservations"][0]["Instances"][0]["PublicDnsName"]
     if public_dns_name == "":
-        log.text(f"polling for instance connectivity in 5 seconds")
+        log.text("polling for instance connectivity in 5 seconds")
         time.sleep(5)
         return poll_for_public_dns_name(instance_id, ec2)
     else:
