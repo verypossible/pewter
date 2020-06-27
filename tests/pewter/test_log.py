@@ -5,8 +5,7 @@ from unittest.mock import mock_open
 import pytest
 
 import pewter.log as log
-
-from .conftest import TEST_DATA_DIR
+from tests.conftest import TEST_DATA_DIR
 
 
 def test_text(mocker):

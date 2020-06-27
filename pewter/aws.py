@@ -66,10 +66,11 @@ def key_pair_exists(key_name, ec2):
 def create_key_pair(key_name, path, ec2):
     key_pair = ec2.create_key_pair(KeyName=key_name)
     log.data({"type": "aws", "sub_type": "created key pair", "key_name": key_name})
-    with open(path, 'x') as outfile:
-        key_material = str(key_pair["KeyMaterial"])
-        outfile.write(key_material)
-        log.data({"type": "local", "sub_type": "wrote key pair", "path": f"{path}"})
+    key_material = str.encode(key_pair["KeyMaterial"])
+    outfile = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, mode=0o400)
+    os.write(outfile, key_material)
+    log.data({"type": "local", "sub_type": "wrote key pair", "path": f"{path}"})
+    os.close(outfile)
 
 
 # TODO treat an instance that "exists" but is not in "running" as an exceptional case
